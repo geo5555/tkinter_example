@@ -1,0 +1,18 @@
+ip sla responder
+security passwords min-length 8
+!
+enable secret consolepassword
+!
+username admin privilege 15 secret 5 consolepassword
+!
+file verify auto
+ip cef
+!
+scheduler allocate 20000 1000
+!
+hostname {{hostname}}
+!
+no ip http server
+no ip http secure-server
+!
+!

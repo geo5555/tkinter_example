@@ -1,0 +1,7 @@
+key chain PBEIGRP
+ key 1    
+  key-string pb@eigrp@branches
+key chain PBVRRP
+ key 1    
+  key-string pb@vrrp@branches
+!

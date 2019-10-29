@@ -1,0 +1,9 @@
+policy-map pm-voice-input
+ class cm-in-jabber-audio
+  set dscp ef
+ class cm-in-phone-audio
+  set dscp ef
+ class cm-in-phone-signaling
+  set dscp cs3
+ class class-default
+!

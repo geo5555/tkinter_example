@@ -1,0 +1,52 @@
+object-group network DC-DNS-SERVERS
+host 10.100.17.1
+host 10.100.17.2
+host 10.100.17.21
+host 10.100.17.5
+host 10.100.17.22
+host 10.100.17.9
+host 10.100.17.10
+host 10.100.17.29
+host 10.100.17.30
+host 10.100.17.13
+host 10.100.17.39
+host 10.100.17.49
+host 10.100.17.11
+host 10.1.12.9
+host 10.145.105.5
+host 10.64.17.5
+host 10.150.163.25
+host 10.154.11.14
+host 10.154.11.11
+host 10.64.17.21
+host 10.95.15.61
+host 10.151.210.2
+!
+object-group network RDP-ADMINS
+10.95.205.0 255.255.255.0
+10.95.240.0 255.255.255.0
+10.205.7.0 255.255.255.0
+10.1.13.0 255.255.255.0
+host 10.151.182.59
+!
+!
+access-list 103 remark GUEST-POLICY
+access-list 103 permit udp any eq bootpc host 255.255.255.255 eq bootps
+access-list 103 permit udp any eq bootpc host 10.23.31.17  eq bootps 
+access-list 103 permit ip any object-group DC-DNS-SERVERS
+access-list 103 permit tcp any eq 3389 object-group RDP-ADMINS established
+access-list 103 permit ip 10.23.31.16 0.0.0.15 10.23.31.16 0.0.0.15 
+access-list 103 permit ip any host  10.23.29.200
+access-list 103 permit udp any host 10.100.0.101 eq netbios-ns
+access-list 103 permit udp any host 10.100.0.101 eq isakmp
+access-list 103 permit tcp any host 10.95.241.11 eq 445
+access-list 103 permit tcp any host 10.95.241.11 eq 139
+access-list 103 permit udp any host 10.95.241.11 eq netbios-ns
+access-list 103 permit udp any host 10.100.17.230 eq bootps
+access-list 103 permit udp any any eq isakmp
+access-list 103 permit tcp any host 10.95.241.11 eq 9800
+access-list 103 permit udp any host 224.0.0.2
+access-list 103 permit udp any host 224.0.0.252
+access-list 103 deny ip any any
+!
+!

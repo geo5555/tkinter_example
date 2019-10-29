@@ -1,0 +1,93 @@
+object-group network aps 
+host {{aps1}}
+host {{aps2}}
+!
+object-group network atm 
+host {{atm1}}
+host {{atm2}}
+host {{atm3}}
+!
+!
+object-group network pos 
+host {{pos1}}
+host {{pos2}}
+!
+!
+object-group service 10.203.100.70
+ tcp eq 20050
+!
+object-group network aps_servers 
+host 10.100.0.73
+host 10.100.0.53
+host 10.100.0.55
+!
+object-group network 10.100.4.61
+ host 10.100.4.61
+ host 10.100.4.161
+ host 10.100.4.162
+ host 10.100.4.163
+ host 10.100.4.164
+ host 10.100.4.165
+!
+object-group network scan-engine
+host 10.100.18.22
+host 192.168.54.25
+host 10.203.75.60
+!
+!
+access-list 102 remark ATM-APS-POS-POLICY
+access-list 102 permit 112 any host 224.0.0.18
+access-list 102 permit object-group 10.203.100.70 object-group atm host 10.203.100.70
+access-list 102 permit tcp object-group atm eq 445 10.95.205.0 0.0.0.255
+access-list 102 permit tcp object-group atm eq 445 10.1.13.0 0.0.0.255
+access-list 102 permit ip object-group atm host 10.1.2.189
+access-list 102 permit tcp object-group atm host 192.168.30.54 eq www
+access-list 102 permit tcp object-group atm host 192.168.30.26 eq www
+access-list 102 permit tcp object-group atm host 10.100.0.113 eq 8080
+access-list 102 permit tcp object-group atm host 10.212.0.55 eq 18988
+access-list 102 permit tcp object-group atm eq 18988 host 10.212.0.55
+access-list 102 permit udp object-group atm eq netbios-dgm any
+access-list 102 permit udp object-group atm eq netbios-ns any
+!
+access-list 102 permit tcp object-group aps host 10.100.0.73 eq www
+access-list 102 permit tcp object-group aps host 10.100.0.73 eq 808
+!
+access-list 102 permit ip object-group aps host 10.100.17.68
+access-list 102 permit ip object-group aps host 10.100.17.69
+!
+access-list 102 permit tcp object-group aps eq 3389 10.95.205.0 0.0.0.255
+access-list 102 permit tcp object-group aps eq 808 host 10.100.0.73
+access-list 102 permit udp object-group aps 10.100.17.0 0.0.0.255 eq 53
+access-list 102 permit tcp object-group aps object-group 10.100.4.61 eq 80
+access-list 102 permit tcp object-group aps object-group 10.100.4.61 eq 8530
+access-list 102 permit tcp object-group aps object-group 10.100.4.61 eq 8531
+access-list 102 permit tcp object-group aps host 10.100.220.1 eq 1688
+access-list 102 permit tcp object-group aps eq 445 10.95.205.0 0.0.0.255
+access-list 102 permit tcp object-group aps host 10.212.0.41 range 3000 3100
+access-list 102 permit tcp object-group aps host 10.212.0.41 range 6001 6002
+access-list 102 permit tcp object-group aps host 10.212.0.42 range 6001 6002
+access-list 102 permit tcp object-group aps host 10.212.0.44 eq 3000
+access-list 102 permit tcp object-group aps host 10.212.0.44 eq 3140
+access-list 102 permit tcp object-group aps host 192.168.42.22 eq www
+access-list 102 permit tcp object-group aps host 10.200.10.112 eq 443
+access-list 102 permit tcp object-group aps object-group aps_servers eq www
+access-list 102 permit tcp object-group aps object-group aps_servers eq 808
+!
+access-list 102 permit udp object-group aps eq ntp object-group aps_servers
+access-list 102 permit tcp object-group aps eq 808 object-group aps_servers
+access-list 102 permit tcp object-group pos host 172.17.1.1 range 8000 8001
+access-list 102 permit tcp object-group pos host 192.168.241.5 eq 8506
+access-list 102 permit tcp object-group pos host 172.17.20.20 eq 16000
+access-list 102 permit tcp object-group pos host 172.17.20.31 eq 6000
+access-list 102 permit tcp object-group pos host 172.17.20.31 eq 7500
+access-list 102 permit ip any object-group scan-engine
+access-list 102 permit tcp object-group pos host 192.168.247.5 eq 8506
+!
+!
+!
+!
+!
+!
+access-list 102 permit icmp any any
+access-list 102 deny ip any any
+!

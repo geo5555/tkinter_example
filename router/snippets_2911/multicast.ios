@@ -1,0 +1,8 @@
+ip multicast-routing 
+ip pim rp-address 10.147.10.2 96
+access-list 96 permit 239.1.3.0 0.0.0.255
+!
+ip access-list standard multicast-boundary
+ permit 224.0.0.0 0.0.0.255
+ permit 239.1.3.0 0.0.0.255
+!

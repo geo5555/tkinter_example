@@ -1,0 +1,24 @@
+policy-map pm-network-input
+ class cm-in-citrix-printing
+  set dscp default
+ class cm-in-cachier-printing
+  set ip dscp af11
+ class cm-in-AD
+  set ip dscp af11
+ class cm-in-esign
+  set ip dscp af22
+ class cm-in-citrix
+  set ip dscp af21
+ class cm-in-dot1x
+  set ip dscp af21
+ class cm-in-atm-aps-pos
+  set ip dscp af11
+ class cm-in-jabber-audio
+  set dscp ef
+ class cm-in-jabber-video
+  set dscp af41
+ class cm-in-jabber-control
+  set dscp cs3
+ class class-default
+  set ip dscp cs1
+!

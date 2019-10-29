@@ -1,0 +1,8 @@
+logging dmvpn
+logging history debugging
+logging trap notifications
+logging facility local5
+logging source-interface Loopback0
+logging host 10.200.250.23
+logging host 10.203.70.100
+!

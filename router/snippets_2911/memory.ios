@@ -1,0 +1,8 @@
+memory reserve critical 4096
+memory reserve console 4096 
+memory free low-watermark processor 15
+memory free low-watermark IO 15
+exception memory ignore overflow processor
+exception memory ignore overflow io
+exception crashinfo maximum files 3
+!

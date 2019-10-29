@@ -1,0 +1,24 @@
+class-map match-any class-mpls-voice-v3.1
+ match dscp ef 
+ match ip precedence 5 
+!
+class-map match-any class-mpls-routing-v3.1
+ match dscp cs6 
+!
+class-map match-any class-mpls-gold-esign-v3.1
+ match dscp af22 
+!
+class-map match-any class-mpls-gold-v3.1
+ match dscp af21 
+!
+class-map match-any class-mpls-silver-v3.1
+ match dscp af31 
+ match dscp cs3 
+ match dscp af11 
+!
+class-map match-any class-mpls-scavenger-v3.1
+ match ip dscp cs1 
+!
+class-map match-any class-mpls-video-v3.1
+ match ip dscp af41 
+!

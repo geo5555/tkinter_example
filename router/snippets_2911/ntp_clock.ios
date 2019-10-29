@@ -1,0 +1,17 @@
+clock timezone EET 2 0
+clock summer-time EEST recurring last Sun Mar 3:00 last Sun Oct 4:00
+!
+ip access-list extended ntplist
+ permit ip host 10.14.5.25 any
+ permit ip host 10.14.7.2 any
+ deny   ip any any
+!
+ntp authentication-key 1 md5 F8e@P!GF4yre
+ntp authenticate
+ntp trusted-key 1
+ntp source Loopback0
+ntp access-group peer ntplist
+ntp update-calendar
+ntp server 10.14.5.25 key 1
+ntp server 10.14.7.2 key 1
+!

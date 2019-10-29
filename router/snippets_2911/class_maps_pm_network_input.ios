@@ -1,0 +1,34 @@
+class-map match-any cm-in-citrix-printing
+ match protocol citrix ica-tag "3"
+class-map match-any cm-in-cachier-printing
+ match access-group name cachier-printing
+class-map match-any cm-in-AD
+ match protocol kerberos
+ match protocol dhcp
+ match protocol dns
+ match protocol ldap
+ match protocol kpasswd
+ match protocol active-directory
+ match protocol ms-netlogon
+ match protocol ms-rpc
+ match protocol netbios-ns
+ match protocol netbios-ssn
+class-map match-any cm-in-esign
+ match access-group 136
+class-map match-any cm-in-citrix
+ match access-group name citrix
+ match protocol citrix ica-tag "2"
+ match protocol citrix ica-tag "1"
+ match protocol citrix ica-tag "0"
+class-map match-any cm-in-dot1x
+ match access-group name Dot1x
+class-map match-any cm-in-atm-aps-pos
+ match access-group name atm-aps-pos
+class-map match-any cm-in-jabber-audio
+ match protocol cisco-collab-audio
+class-map match-any cm-in-jabber-video
+ match protocol cisco-jabber-video
+class-map match-any cm-in-jabber-control
+ match protocol cisco-jabber-im
+ match protocol cisco-jabber-control
+!

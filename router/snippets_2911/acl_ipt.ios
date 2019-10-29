@@ -1,0 +1,35 @@
+ip access-list extended ipt
+ permit udp any range 16384 32767 any
+ permit ip any 10.95.105.0 0.0.0.255
+ permit ip any host 10.1.2.52
+ permit ip any host 10.95.156.11
+ permit ip any host 10.147.33.11
+ permit ip any host 10.145.51.11
+ permit ip any host 10.205.33.10
+ permit ip any host 10.205.33.11
+ permit ip any host 10.200.33.11
+ permit ip any host 10.200.33.21
+ permit ip any host 10.205.33.21
+ permit ip any host 10.147.33.50
+ permit ip any host 10.200.250.16
+ permit ip any host 10.1.33.11
+ permit ip any host 10.145.51.16
+ permit ip any host 10.205.33.16
+ permit udp any host 10.200.250.10 eq domain
+ permit udp any host 10.200.250.11 eq domain
+ permit udp any host 10.100.17.21 eq domain
+ permit tcp any host 10.203.150.197 eq www
+ permit ip any host 10.100.0.10
+ permit udp any host 10.14.5.24 eq ntp
+ permit udp any host 10.14.7.24 eq ntp
+ permit ip any host 224.0.0.2
+ permit ip any host 224.0.0.13
+ permit igmp any any
+ permit icmp any any echo-reply
+ permit icmp any any port-unreachable
+ permit pim any any
+ permit udp any eq bootpc host 255.255.255.255 eq bootps
+ permit ip any 10.23.30.0 0.0.0.255
+ permit tcp any eq 4224 any
+ deny ip any any
+!

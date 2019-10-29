@@ -1,0 +1,21 @@
+crypto logging session
+!
+crypto isakmp policy 10
+ encr aes
+ authentication pre-share
+ group 2
+ lifetime 14400
+crypto isakmp key crypto-key address 172.16.0.37    
+crypto isakmp key crypto-key address 172.16.0.5     
+crypto isakmp key crypto-key address 172.16.0.71    
+crypto isakmp keepalive 10
+!
+crypto ipsec security-association replay window-size 1024
+!
+crypto ipsec transform-set gre esp-aes 
+ mode transport
+crypto ipsec df-bit clear
+!
+crypto ipsec profile dmvpn
+ set transform-set gre 
+!

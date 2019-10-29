@@ -1,0 +1,16 @@
+access-list 1 permit {{ip_subnet_ip}} {{ip_subnet_hostmask}}
+!
+router eigrp 1
+ distribute-list 1 out Tunnel20
+ distribute-list 1 out Tunnel21
+ distribute-list 1 out Tunnel22
+!
+network 10.0.0.0
+ passive-interface default
+ no passive-interface Tunnel20
+ no passive-interface Tunnel21
+ no passive-interface Tunnel22
+ no passive-interface {% if router_type == 1 %}GigabitEthernet0/0.1{% elif router_type == 2 %}GigabitEthernet0/0/0.1{% elif router_type == 3 %}vlan1{% endif %}
+!
+ip route 172.16.0.0 255.255.255.0 {{ wan_ip_across }}
+!

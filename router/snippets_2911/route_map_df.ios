@@ -1,0 +1,4 @@
+route-map clear-df permit 10
+ match length 1300 1518
+ set ip df 0
+!

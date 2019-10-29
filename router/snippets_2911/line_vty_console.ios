@@ -1,0 +1,39 @@
+ip access-list standard loginacc
+ permit 10.200.250.16
+ permit 10.200.250.17
+ permit 10.200.250.23
+!
+line con 0
+ session-timeout 10 
+ exec-timeout 15 0
+ privilege level 15
+ password consolepassword
+ login authentication console
+line aux 0
+ exec-timeout 0 0
+ no exec
+line 2
+ no activation-character
+ no exec
+ transport preferred none
+ transport output lat pad telnet rlogin lapb-ta mop udptn v120 ssh
+ stopbits 1
+line vty 0 4
+ access-class loginacc in
+ exec-timeout 15 0
+ privilege level 15
+ password consolepassword
+ logging synchronous
+ exec prompt timestamp
+ transport input ssh
+line vty 5 15
+ access-class loginacc in
+ exec-timeout 15 0
+ privilege level 15
+ logging synchronous
+ exec prompt timestamp
+ length 0
+ transport input ssh
+!
+!
+!

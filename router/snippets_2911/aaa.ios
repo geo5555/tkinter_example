@@ -1,0 +1,17 @@
+aaa new-model
+aaa local authentication attempts max-fail 8
+aaa authentication login default group tacacs+ local 
+aaa authentication enable default group tacacs+ enable
+aaa authorization exec default group tacacs+ local if-authenticated 
+aaa authentication login console line
+aaa accounting exec default
+ action-type start-stop
+ group tacacs+
+aaa accounting commands 1 default
+ action-type start-stop
+ group tacacs+
+aaa accounting commands 15 default
+ action-type start-stop
+ group tacacs+
+aaa session-id common
+!

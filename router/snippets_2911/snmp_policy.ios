@@ -1,0 +1,57 @@
+ip access-list standard snmp_acl
+ permit 10.200.250.23
+ permit 10.200.250.11
+ permit 10.200.250.110
+ permit 10.203.70.35
+ permit 10.203.70.34
+ !
+snmp-server view ALL_MIB_TREE iso included
+snmp-server group PB_SNMP_GROUP_AES 128 v3 priv read ALL_MIB_TREE access snmp_acl
+snmp-server user CYRRUS PB_SNMP_GROUP_AES 128 v3 auth sha #c1rru$# priv aes128 #c1rru$#
+snmp-server user NNMI PB_SNMP_GROUP_AES 128 v3 auth sha nn@m1!@# priv aes128 nn@m1!@#
+snmp-server user NMIS PB_SNMP_GROUP_AES 128 v3 auth sha #nm1$# priv aes 128 #nm1$#
+snmp-server user SCRUTINIZER PB_SNMP_GROUP_AES 128 v3 auth sha scrut1n1z3r! priv aes 128 scrut1n1z3r!
+snmp-server ifindex persist
+snmp-server trap-source Loopback0
+!
+snmp-server location main-Branch-rtr
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps vrrp
+snmp-server enable traps transceiver all
+snmp-server enable traps tty
+snmp-server enable traps eigrp
+snmp-server enable traps envmon
+!
+snmp-server enable traps cef resource-failure peer-state-change peer-fib-state-change inconsistency
+snmp-server enable traps memory bufferpeak
+snmp-server enable traps config
+snmp-server enable traps entity
+snmp-server enable traps hsrp
+snmp-server enable traps ipmulticast
+!
+snmp-server enable traps cpu threshold
+snmp-server enable traps ethernet cfm cc mep-up mep-down cross-connect loop config
+snmp-server enable traps ethernet cfm crosscheck mep-missing mep-unknown service-up
+snmp-server enable traps dsp card-status
+snmp-server enable traps dsp oper-state
+snmp-server enable traps dsp video-usage
+snmp-server enable traps dsp video-out-of-resource
+snmp-server enable traps ike policy delete
+!
+!
+snmp-server enable traps ipsec cryptomap attach
+snmp-server enable traps ipsec cryptomap detach
+!
+!
+snmp-server enable traps ipsec too-many-sas
+snmp-server enable traps ethernet cfm alarm
+snmp-server enable traps mpls vpn
+snmp-server enable traps voice poor-qov
+snmp-server host 10.200.250.23 version 3 priv CYRRUS 
+!
+snmp-server host 10.200.250.11 version 3 priv NMIS 
+snmp-server host 10.203.70.34 version 3 priv NNMI 
+snmp-server host 10.203.70.35 version 3 priv NNMI 
+!
+snmp mib persist cbqos
+!

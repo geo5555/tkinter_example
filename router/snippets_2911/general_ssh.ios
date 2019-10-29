@@ -1,0 +1,14 @@
+process cpu threshold type total rising 80 interval 120
+process cpu threshold type process rising 80 interval 120
+!
+!
+no ip source-route
+no ip domain lookup
+ip domain name comms.piraeusbank.gr
+!
+crypto key generate rsa general-keys modulus 2048
+ip ssh version 2
+ip ssh time-out 60
+ip ssh authentication-retries 4
+!
+!

@@ -1,0 +1,12 @@
+{% if router_type == 1 %}interface GigabitEthernet0/1{% elif router_type == 2 %}interface GigabitEthernet0/0/1{% elif router_type == 3 %}FastEthernet4{% endif %}
+ description MPLS OTE {{bw}}
+ bandwidth 1920
+ ip address {{ wan_ip }} 255.255.255.252
+ duplex auto
+ speed auto
+ no cdp enable
+ no lldp transmit
+ no lldp receive
+ no shut
+ service-policy output {{ policy_map }}
+!

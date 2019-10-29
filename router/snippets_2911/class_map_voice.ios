@@ -1,0 +1,8 @@
+class-map match-any cm-in-jabber-video
+ match protocol cisco-jabber-video
+class-map match-any cm-in-phone-audio
+ match protocol cisco-phone-audio
+class-map match-any cm-in-phone-signaling
+ match protocol cisco-phone-control
+ match protocol cisco-collab-control
+!

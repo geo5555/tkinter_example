@@ -1,0 +1,32 @@
+policy-map pm-mpls-6144-v3.1
+ class class-mpls-voice-v3.1
+  priority percent 15
+  set dscp cs5
+ class class-mpls-routing-v3.1
+  bandwidth percent 2
+  set dscp cs3
+ class class-mpls-gold-esign-v3.1
+  bandwidth percent 5
+  set dscp cs3
+ class class-mpls-gold-v3.1
+  bandwidth percent 40
+  set dscp cs3
+  random-detect
+ class class-mpls-silver-v3.1
+  bandwidth percent 5 
+  set dscp cs2
+ class class-mpls-scavenger-v3.1
+  bandwidth percent 5 
+  set precedence 0
+  random-detect
+ class class-mpls-video-v3.1
+  bandwidth percent 15 
+  set precedence 0
+ class class-default
+  set precedence 0
+!
+policy-map pm-mpls-6144-parent-v3.1
+ class class-default
+  shape average 6064000
+   service-policy pm-mpls-6144-v3.1
+!

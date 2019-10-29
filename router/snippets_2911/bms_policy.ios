@@ -1,0 +1,134 @@
+object-group network acl104_www
+ 10.100.206.0 255.255.255.0
+ 10.95.207.0 255.255.255.0
+ 10.151.53.0 255.255.255.0
+ 10.151.52.0 255.255.255.0
+ 10.1.68.0 255.255.255.0
+ host 10.151.53.94
+ host 10.100.19.94
+ range 10.147.229.24 10.147.229.25
+ host 10.147.229.27
+ host 10.147.229.149
+ host 10.151.53.25
+ range 10.203.84.30 10.203.84.42
+!
+object-group network acl104_8000-8010
+ 10.100.206.0 255.255.255.0
+ 10.95.207.0 255.255.255.0
+ 10.151.52.0 255.255.255.0
+ 10.1.68.0 255.255.255.0
+ range 10.203.84.30 10.203.84.42
+ host 10.1.1.120
+!
+object-group network acl104_20000
+ 10.100.206.0 255.255.255.0
+ 10.95.207.0 255.255.255.0
+!
+object-group network acl104_37777
+ 10.100.206.0 255.255.255.0
+ 10.151.52.0 255.255.255.0
+!
+object-group network acl104
+ 10.100.206.0 255.255.255.0
+ 10.151.52.0 255.255.255.0
+ 10.95.207.0 255.255.255.0
+ range 10.203.84.30 10.203.84.42
+!
+object-group network acl104_clients-pc
+ host 10.205.210.51
+ host 10.205.210.101
+ host 10.205.210.103
+ host 10.1.1.49
+ host 10.1.1.165
+ host 10.80.135.35
+ host 10.151.182.55
+ host 10.151.182.53
+ host 10.151.182.52
+ host 10.151.187.71
+ host 10.151.187.70
+ host 10.151.187.69
+ host 10.151.187.68
+!
+!
+object-group network Construction-Dept
+ host 10.147.229.24
+ host 10.147.229.25
+ host 10.147.229.27
+ host 10.147.229.149
+ host 10.151.53.25
+!
+object-group network HLKA-servers
+ host 10.205.210.61
+ host 10.205.210.62
+ host 10.205.210.63
+ host 10.205.210.64
+ host 10.205.210.65
+ host 10.205.210.66
+ host 10.205.210.102
+!
+object-group network sobsystems
+ host 10.100.19.94
+ host 10.100.19.216
+ host 10.100.19.217
+ host 10.100.19.218
+!
+object-group network universal
+ host 192.168.38.39
+ host 192.168.38.40
+!
+!
+access-list 104 remark BMS-POLICY
+access-list 104 permit tcp any object-group HLKA-servers eq www
+access-list 104 permit tcp any object-group HLKA-servers eq 56329
+access-list 104 permit tcp any object-group HLKA-servers eq 51292
+access-list 104 permit tcp any object-group HLKA-servers eq 53165
+access-list 104 permit tcp any object-group HLKA-servers eq 52737
+access-list 104 permit tcp any object-group HLKA-servers range 8738 8739
+access-list 104 permit udp any object-group HLKA-servers range 8738 8739
+access-list 104 permit tcp any object-group universal eq 9000
+access-list 104 permit udp any object-group universal eq 9000
+access-list 104 permit tcp any eq www object-group acl104_www
+access-list 104 permit tcp any eq 443 object-group acl104_www
+access-list 104 permit tcp any eq www object-group acl104_clients-pc
+access-list 104 permit tcp any eq 443 object-group acl104_clients-pc
+access-list 104 permit tcp any eq 22 object-group acl104_clients-pc
+access-list 104 permit tcp any range 8000 8010 object-group acl104_8000-8010
+access-list 104 permit tcp any range 8000 8010 object-group acl104_clients-pc
+access-list 104 permit tcp any object-group acl104_20000 eq 20000
+access-list 104 permit tcp any eq 37777 object-group acl104_37777
+access-list 104 permit tcp any eq 37777 object-group acl104_clients-pc
+access-list 104 permit tcp any eq 554 object-group acl104
+access-list 104 permit tcp any eq 554 object-group acl104_clients-pc
+access-list 104 permit tcp any eq 1500 object-group acl104
+access-list 104 permit tcp any eq 8016 object-group acl104
+access-list 104 permit tcp any eq 8016 object-group acl104_clients-pc
+access-list 104 permit tcp any eq 8116 object-group acl104
+access-list 104 permit tcp any eq 8116 object-group acl104_clients-pc
+access-list 104 permit tcp any range 8200 8201 object-group acl104
+access-list 104 permit tcp any range 8200 8201 object-group acl104_clients-pc
+access-list 104 permit tcp any eq 10019 object-group acl104
+access-list 104 permit tcp any eq 10019 object-group acl104_clients-pc
+access-list 104 permit tcp any range 2305 2306 10.100.206.0 0.0.0.255
+access-list 104 permit tcp any eq 5004 host 10.151.182.53
+access-list 104 permit tcp any eq 1911 host 10.100.19.94
+access-list 104 permit tcp any eq 3011 host 10.100.19.94
+access-list 104 permit tcp any 10.151.52.0 0.0.0.255 eq 6500
+access-list 104 permit ip any host 10.100.18.136
+access-list 104 permit tcp any eq 10001 object-group Construction-Dept
+access-list 104 permit udp any range 47808 47823 any
+access-list 104 permit tcp any range 7090 7091 10.95.207.0 0.0.0.255
+access-list 104 permit tcp any eq 1370 10.100.206.0 0.0.0.255
+access-list 104 permit tcp any eq www object-group sobsystems
+access-list 104 permit tcp any eq 502 object-group sobsystems
+access-list 104 permit tcp any eq 1911 object-group sobsystems
+access-list 104 permit tcp any eq 3011 object-group sobsystems
+access-list 104 permit tcp any eq 3000 any
+access-list 104 permit udp any host 10.100.17.1 eq ntp
+access-list 104 permit tcp any host 10.100.17.34 eq smtp
+access-list 104 permit ip any host 224.0.0.18
+access-list 104 permit icmp any any
+access-list 104 permit ip any object-group scan-engine
+access-list 104 permit tcp any eq 5004 host 10.95.207.156
+!
+access-list 104 deny ip any any
+!

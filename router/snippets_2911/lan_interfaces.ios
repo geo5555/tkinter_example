@@ -1,0 +1,103 @@
+{% if router_type == 1 %}interface GigabitEthernet0/0.1{% elif router_type == 2 %}interface GigabitEthernet0/0/0.1{% elif router_type == 3 %}interface vlan1{% endif %}
+ description To Data Vlan
+ {% if router_type == 1 or router_type == 2 %}encapsulation dot1Q 1 native
+ ip address {{ data_ip }} 255.255.255.0{% endif %}
+ ip helper-address 10.100.17.230
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ip nbar protocol-discovery
+ ip authentication mode eigrp 1 md5
+ ip authentication key-chain eigrp 1 PBEIGRP
+ ip flow ingress
+ ip pim sparse-mode
+ ip tcp adjust-mss 1360
+ ip policy route-map clear-df
+ vrrp 1 ip {{ data_vrrp_ip }}
+ vrrp 1 timers learn
+ vrrp 1 preempt delay minimum 90
+ vrrp 1 authentication md5 key-chain PBVRRP
+ service-policy input pm-network-input
+!         
+{% if router_type == 1 %}interface GigabitEthernet0/0.2{% elif router_type == 2 %}interface GigabitEthernet0/0/0.2{% elif router_type == 3 %}interface vlan2{% endif %}
+ description To ATM Vlan
+ {% if router_type == 1 or router_type == 2 %}encapsulation dot1Q 2{% endif %}
+ ip address {{ atm_ip }} 255.255.255.240
+ ip access-group 102 in
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ip nbar protocol-discovery
+ ip flow ingress
+ ip tcp adjust-mss 1360
+ ip policy route-map clear-df
+ vrrp 2 ip {{ atm_vrrp_ip }}
+ vrrp 2 timers learn
+ vrrp 2 preempt delay minimum 90
+ vrrp 2 authentication md5 key-chain PBVRRP
+ service-policy input pm-network-input
+!         
+{% if router_type == 1 %}interface GigabitEthernet0/0.3{% elif router_type == 2 %}interface GigabitEthernet0/0/0.3{% elif router_type == 3 %}interface vlan3{% endif %}
+ description To Guest Vlan
+ {% if router_type == 1 or router_type == 2 %}encapsulation dot1Q 3{% endif %}
+ ip address {{ guest_ip }} 255.255.255.240
+ ip access-group 103 in
+ ip helper-address 10.100.17.230
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ip nbar protocol-discovery
+ ip flow ingress
+ ip tcp adjust-mss 1360
+ ip policy route-map clear-df
+!         
+{% if router_type == 1 %}interface GigabitEthernet0/0.4{% elif router_type == 2 %}interface GigabitEthernet0/0/0.4{% elif router_type == 3 %}interface vlan4{% endif %}
+ description To BMS Vlan
+ {% if router_type == 1 or router_type == 2 %}encapsulation dot1Q 4{% endif %}
+ ip address {{ bms_ip }} 255.255.255.240
+ ip access-group 104 in
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ip nbar protocol-discovery
+ ip flow ingress
+ ip tcp adjust-mss 1360
+ ip policy route-map clear-df
+ service-policy input pm-network-input
+!         
+{% if router_type == 1 %}interface GigabitEthernet0/0.10{% elif router_type == 2 %}interface GigabitEthernet0/0/0.10{% elif router_type == 3 %}interface vlan10{% endif %}
+ description To Voice Vlan
+ {% if router_type == 1 or router_type == 2 %}encapsulation dot1Q 10{% endif %}
+ ip address {{ voice_ip }} 255.255.255.0
+ ip access-group ipt in
+ no ip unreachables
+ no ip proxy-arp
+ ip nbar protocol-discovery
+ ip flow ingress
+ ip pim sparse-mode
+ ip tcp adjust-mss 1360
+ ip policy route-map clear-df
+ h323-gateway voip interface
+ h323-gateway voip bind srcaddr {{ voice_ip }}
+ service-policy input pm-voice-input
+!         
+{% if router_type == 1 %}interface GigabitEthernet0/0.89{% elif router_type == 2 %}interface GigabitEthernet0/0/0.89{% elif router_type == 3 %}interface vlan89{% endif %}
+ description Remediation Vlan               
+ {% if router_type == 1 or router_type == 2 %}encapsulation dot1Q 89{% endif %}
+ ip address {{ remediation_ip }} 255.255.255.240
+ ip helper-address 10.100.17.230
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ip flow ingress
+ ip tcp adjust-mss 1360
+ ip policy route-map clear-df
+ vrrp 89 ip {{ remediation_vrrp_ip }}
+ vrrp 89 timers learn
+ vrrp 89 preempt delay minimum 90
+ vrrp 89 authentication md5 key-chain PBVRRP
+ service-policy input pm-network-input
+!
+int Loopback0
+ ip address {{loopback0_ip}} 255.255.255.255
+!

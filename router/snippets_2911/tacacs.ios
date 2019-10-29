@@ -1,0 +1,6 @@
+tacacs-server host 10.200.250.60
+tacacs-server host 10.200.250.90
+tacacs-server timeout 2
+tacacs-server directed-request
+tacacs-server key pb.edp.acs31
+!

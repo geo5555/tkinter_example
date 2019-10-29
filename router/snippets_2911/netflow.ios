@@ -1,0 +1,8 @@
+!
+ip flow-export source Loopback0
+ip flow-export version 9
+ip flow-top-talkers
+ top 10
+ sort-by bytes
+ match input-interface {% if router_type == 1 %}GigabitEthernet0/0.1{% elif router_type == 2 %}GigabitEthernet0/0/0.1{% elif router_type == 3 %}vlan1{% endif %}
+!

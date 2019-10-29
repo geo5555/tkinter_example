@@ -1,0 +1,20 @@
+logging count
+logging userinfo
+logging console informational
+logging buffered 16384 informational
+logging persistent size 14217728 filesize 8192
+!
+logging monitor informational
+login on-failure log
+login on-success log
+!
+archive
+ log config
+  logging enable
+  logging size 700
+  notify syslog contenttype plaintext
+  hidekeys
+ path flash0:archived-config
+ maximum 2
+ time-period 1440
+!
