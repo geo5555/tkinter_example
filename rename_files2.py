@@ -9,13 +9,21 @@ frame1 = Frame(window)
 window.title("Rename Files by GE")
 window.geometry('1200x600')
 
+var_recButton = IntVar()
+recButton = Checkbutton(frame1, variable = var_recButton, text="Recursive")
+recButton.grid(row=1, column=5)
+
+var_escButton = IntVar()
+escButton = Checkbutton(frame1, variable = var_escButton, text="Escape Special Characters")
+escButton.grid(row=1, column=6)
+
 Label(frame1, text="From" ).grid(row=1, column=0)
 Label(frame1, text="To" ).grid(row=1, column=2)
 txt1 = Entry(frame1, width=20)
 txt1.grid(column=1, row=1)
 txt2 = Entry(frame1, width=20)
 txt2.grid(column=4, row=1)
-frame1.grid(column=0, row=1)
+frame1.grid(column=0, row=1, columnspan=3)
 directory1 = ''
 listPreview = []
 listFiles = []
@@ -29,62 +37,76 @@ frame2 = Frame(window)
 frame2.grid(column=0, row=4)
 lbl=Label(frame2, text="", font=("Arial Bold", 12))
 lbl.grid(column=1, row=0)
+listFiles = []
 
 
 def openFileDialog():
     global directory1
     global recursive
     directory1 = filedialog.askdirectory()  # returns string
+    lbl.configure(text=directory1)
+    populateTextArea1()
+
+def populateTextArea1():
+    global listFiles
+    global directory1
+    recursive = var_recButton.get()
     txtArea1.delete("1.0", END)
     txtArea2.delete("1.0", END)
     txtArea3.delete("1.0", END)
-    lbl.configure(text=directory1)
-    for file in Path(directory1).iterdir():
-        if file.is_file():
-            txtArea1.insert('end', file.name)
-            txtArea1.insert('end', '\n')
+    if not recursive:
+        listFiles = [file for file in Path(directory1).iterdir() if file.is_file()]
+    else:
+        listFiles = [file for file in Path(directory1).glob("**/*") if file.is_file()]
+    for file in listFiles:
+        txtArea1.insert('end', file)
+        txtArea1.insert('end', '\n')
 
 
 def renamePreview():
     global directory1
+    global listFiles
     txtArea2.delete("1.0", END)
-    pattern = txt1.get()
+    escape = var_escButton.get()
+    if escape:
+        pattern = re.escape(txt1.get())
+    else:
+        pattern = txt1.get()
     pattern2 = txt2.get()
     result = ''
-    for file in Path(directory1).iterdir():
-        if file.is_file():
-            if re.search(pattern, file.name, flags=re.I):
-                result = re.sub(pattern, pattern2,
-                                file.name, flags=re.I)
-                txtArea2.insert('end', result)
-                txtArea2.insert('end', '\n')
+    for file in listFiles:
+        if re.search(pattern, file.name, flags=re.I):
+            result = re.sub(pattern, pattern2,
+                            file.name, flags=re.I)
+            txtArea2.insert('end', result)
+            txtArea2.insert('end', '\n')
 
 
 def rename():
     global directory1
+    global listFiles
     txtArea3.delete("1.0", END)
+    escape = var_escButton.get()
+    if escape:
+        pattern = re.escape(txt1.get())
+    else:
+        pattern = txt1.get()
     pattern = re.escape(txt1.get())
-    pattern2 = re.escape(txt2.get())
+    pattern2 = txt2.get()
     result = ''
-    for file in Path(directory1).iterdir():
-        if file.is_file():
-            if re.search(pattern, file.name, flags=re.I):
-                result = re.sub(pattern, pattern2,
-                                file.name, flags=re.I)
-                file.rename(file.parent.joinpath(result))
-                txtArea3.insert('end', result)
-                txtArea3.insert('end', '\n')
+    for file in listFiles:
+        if re.search(pattern, file.name, flags=re.I):
+            result = re.sub(pattern, pattern2,
+                            file.name, flags=re.I)
+            print(file.parent.joinpath(result))
+            file.rename(file.parent.joinpath(result))
+            #file.rename(result) will move file to another dir
+            txtArea3.insert('end', result)
+            txtArea3.insert('end', '\n')
 
 
 def refresh():
-    global directory1
-    txtArea1.delete("1.0", END)
-    txtArea2.delete("1.0", END)
-    txtArea3.delete("1.0", END)
-    for file in Path(directory1).iterdir():
-        if file.is_file():
-            txtArea1.insert('end', file.name)
-            txtArea1.insert('end', '\n')
+    populateTextArea1()
 
 
 btnFileDialog = Button(
