@@ -49,27 +49,20 @@ def ping_all():
     ip_list = [str(ip) for ip in ip_network(subnet).hosts()]
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
-        futures = []
         txtArea2.tag_configure('green', foreground='green',
                        font=('Tempus Sans ITC', 12, 'bold'))
         txtArea1.tag_configure('red', foreground='red',
                        font=('Tempus Sans ITC', 12, 'bold'))
-        for ip in ip_list:
-            future = executor.submit(ping_ip, ip)
-            futures.append(future)
-        for future in concurrent.futures.as_completed(futures):
-            try:
-                data = future.result()
-                if data[0]:
-                    txtArea2.insert(END, data[1], 'green')
-                    txtArea2.insert(END, '\n')
-                    txtArea2.update()
-                else:
-                    txtArea1.insert(END, data[1], 'red')
-                    txtArea1.insert(END, '\n')
-                    txtArea1.update()
-            except Exception as e:
-                print('generated an exception:', e)
+        result = executor.map(ping_ip, ip_list)
+        for data in result:
+            if data[0]:
+                txtArea2.insert(END, data[1], 'green')
+                txtArea2.insert(END, '\n')
+                txtArea2.update()
+            else:
+                txtArea1.insert(END, data[1], 'red')
+                txtArea1.insert(END, '\n')
+                txtArea1.update()
         messagebox.showinfo("Info", "Ping finished")
 
 btnPing = Button(

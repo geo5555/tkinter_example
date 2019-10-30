@@ -3,7 +3,7 @@ from ipaddress import ip_network, ip_address
 import platform
 import subprocess
 
-ip_list = [str(ip) for ip in ip_network("192.168.2.0/28").hosts()]
+ip_list = [str(ip) for ip in ip_network("192.168.1.0/24").hosts()]
 
 
 def checkPlatform(Name):
@@ -27,7 +27,7 @@ def ping_ip(ip):
 
 
 # We can use a with statement to ensure threads are cleaned up promptly
-with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+with concurrent.futures.ThreadPoolExecutor(max_workers=40) as executor:
     futures = []
     for ip in ip_list:
         future = executor.submit(ping_ip, ip)

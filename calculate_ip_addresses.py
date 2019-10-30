@@ -1,10 +1,9 @@
 from tkinter import *
 from tkinter import scrolledtext
+from tkinter import messagebox
 from tkinter.ttk import *
 from ipaddress import ip_network, ip_address
-import re
 from jinja2 import Environment, FileSystemLoader
-from pprint import pprint
 
 window = Tk()
 window.title("Calculate IP addresses by GE")
@@ -167,8 +166,19 @@ def render_jinja2(context):
     template = ENV.get_template('router2911.j2')
     result=template.render(context)
     txtArea2.insert('end',result)
-    
+
+def saveFile():
+    config = txtArea2.get("1.0", END)
+    filename = txtHostname.get()+".txt"
+    with open(filename,"w") as f:
+        f.write(config)
+    messagebox.showinfo("Info", "File saved in "+filename)
+
 btnCalculate = Button(
     frame1, text="Calculate", command=calculate)
 btnCalculate.grid(column=0, row=6, columnspan=2)
+
+btnSave = Button(
+    frame1, text="Save File", command=saveFile)
+btnSave.grid(column=0, row=7, columnspan=2)
 window.mainloop()
