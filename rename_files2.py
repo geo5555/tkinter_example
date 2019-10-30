@@ -148,9 +148,8 @@ btnRefresh = Button(
     window, text="Refresh Directory", command=refresh)
 btnRefresh.grid(column=0, row=3)
 
-#frame2.grid(column=0, row=4)
+
 btnFileDialog.grid(column=0, row=0)
-#lbl=Label(frame2, text="Directory:", font=("Arial Bold", 12)).grid(column=1, row=0)
 btnRenamePreview.grid(column=1, row=4)
 btnRename.grid(column=2, row=4)
 window.mainloop()
