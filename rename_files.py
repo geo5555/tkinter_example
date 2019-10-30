@@ -7,10 +7,10 @@ import re
 window = Tk()
 frame1 = Frame(window)
 window.title("Rename Files by GE")
-window.geometry('1200x600')
+# window.geometry('1200x600')
 
-Label(frame1, text="From" ).grid(row=1, column=0)
-Label(frame1, text="To" ).grid(row=1, column=2)
+Label(frame1, text="From").grid(row=1, column=0)
+Label(frame1, text="To").grid(row=1, column=2)
 txt1 = Entry(frame1, width=20)
 txt1.grid(column=1, row=1)
 txt2 = Entry(frame1, width=20)
@@ -19,15 +19,15 @@ frame1.grid(column=0, row=1)
 directory1 = ''
 listPreview = []
 listFiles = []
-txtArea1 = tkst.ScrolledText(window, width=50, height=80)
+txtArea1 = tkst.ScrolledText(window, width=50, height=30)
 txtArea1.grid(column=0, row=5)
-txtArea2 = tkst.ScrolledText(window, width=50, height=80)
+txtArea2 = tkst.ScrolledText(window, width=50, height=30)
 txtArea2.grid(column=1, row=5)
-txtArea3 = tkst.ScrolledText(window, width=50, height=80)
+txtArea3 = tkst.ScrolledText(window, width=50, height=30)
 txtArea3.grid(column=2, row=5)
 frame2 = Frame(window)
 frame2.grid(column=0, row=4)
-lbl=Label(frame2, text="", font=("Arial Bold", 12))
+lbl = Label(frame2, text="", font=("Arial Bold", 12))
 lbl.grid(column=1, row=0)
 
 
