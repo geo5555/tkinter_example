@@ -8,7 +8,7 @@ from pprint import pprint
 
 window = Tk()
 window.title("Calculate IP addresses by GE")
-window.geometry('1200x800')
+#window.geometry('1200x600')
 frame1 = Frame(window)
 frame1.grid(column=0, row=1)
 txtSubnet = Entry(frame1, width=20)
@@ -34,21 +34,26 @@ lblBW = Label(frame1, text="BW")
 lblBW.grid(column=0, row=4)
 choices = ['1Mb', '2MB', '4MB', '6MB', '10Mb', '15Mb', '20Mb']
 bw1 = Combobox(frame1, values=choices)
+bw1.current(1)
 bw1.grid(column=1, row=4)
-txtArea1 = scrolledtext.ScrolledText(window, width=50, height=80)
+choices2 = ['2911', '4321', '881']
+bw2 = Combobox(frame1, values=choices2)
+bw2.current(0)
+#print(type(bw2.current())) #int return index
+bw2.grid(column=1, row=5)
+txtArea1 = scrolledtext.ScrolledText(window, width=50, height=30)
 txtArea1.grid(column=0, row=2)
-txtArea2 = scrolledtext.ScrolledText(window, width=80, height=80)
+txtArea2 = scrolledtext.ScrolledText(window, width=80, height=30)
 txtArea2.grid(column=1, row=2)
 
 
 def calculate():
     global directory1
     txtArea1.delete("1.0", END)
+    txtArea2.delete("1.0", END)
     hostname = txtHostname.get()
     subnet = txtSubnet.get()
     wan_ip = txtWanIP.get()
-    bw2 = bw1.get()
-    print(bw2)
     dict_form = { '1Mb':0, '2MB':1, '4MB':2, '6MB':3, '10Mb':4, '15Mb':5, '20Mb':6}
     pm_list = ['pm-mpls-1024-v3.1', 'pm-mpls-1920-v3.1', 'pm-mpls-4096-v3.1',
                'pm-mpls-6144-v3.1', 'pm-mpls-10240-v3.1', 'pm-mpls-15120-v3.1', 'pm-mpls-20MB-v3.1']
@@ -65,8 +70,10 @@ def calculate():
     wan_ip_across = ip_address(wan_ip)-1
     tunnel20ip = txtTunnel20.get()
     ip_subnet = txtSubnet.get()
-    service_policy_output = dict_form[bw2]
+    #service_policy_output = dict_form[bw2]
     #router_type = dict_form['router_type']
+    service_policy_output = bw1.current()
+    router_type = bw2.current()+1
     ip_net = ip_network(ip_subnet)
     ip_subnet_ip = ip_net.network_address
     ip_subnet_mask = ip_net.netmask
@@ -147,7 +154,7 @@ def calculate():
         'tunnel112ip': tunnel112ip,
         'tunnel212ip': tunnel212ip,
         'loopback0_ip': loopback0_ip,
-        # 'router_type': router_type
+        'router_type': router_type
     }
     for key, value in sorted(context.items(),  key=lambda x: x[0]):
         txtArea1.insert('end', key+': '+str(value))
@@ -163,5 +170,5 @@ def render_jinja2(context):
     
 btnCalculate = Button(
     frame1, text="Calculate", command=calculate)
-btnCalculate.grid(column=0, row=5, columnspan=2)
+btnCalculate.grid(column=0, row=6, columnspan=2)
 window.mainloop()
