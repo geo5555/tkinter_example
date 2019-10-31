@@ -2,8 +2,9 @@ import concurrent.futures
 from ipaddress import ip_network, ip_address
 import platform
 import subprocess
+import time
 
-ip_list = [str(ip) for ip in ip_network("192.168.2.0/28").hosts()]
+ip_list = [str(ip) for ip in ip_network("192.168.2.0/24").hosts()]
 
 
 def checkPlatform(Name):
@@ -27,15 +28,18 @@ def ping_ip(ip):
 
 
 # We can use a with statement to ensure threads are cleaned up promptly
-with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
+    t1 = time.perf_counter()
     # Start the load operations and mark each future with its ip
     future_to_ping = {executor.submit(ping_ip, ip): ip for ip in ip_list}
-    print(future_to_ping)
     for future in concurrent.futures.as_completed(future_to_ping):
-        ip = future_to_ping[future] #get the ip from the dictionary we created earlier
+        # get the ip from the dictionary we created earlier
+        ip = future_to_ping[future]
         try:
-            data = future.result() #get the result
+            data = future.result()  # get the result
         except Exception as exc:
             print('%s generated an exception: %s' % (ip, exc))
         else:
-            print('%s page is %s' % (ip, str(data)))
+            print('%s result is: %s' % (ip, str(data)))
+    t2 = time.perf_counter()
+    print(t2-t1)
