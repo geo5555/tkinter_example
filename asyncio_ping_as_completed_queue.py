@@ -17,7 +17,7 @@ async def safe_ping(q):
 
 async def do_ping(host):
     try:
-        delay = await aioping.ping(host) * 1000
+        delay = await aioping.ping(host, timeout=2) * 1000
         print("Ping response in %s ms" % delay)
         return host, delay
     except TimeoutError:

@@ -2,6 +2,7 @@ import concurrent.futures
 from ipaddress import ip_network, ip_address
 import platform
 import subprocess
+import time
 
 ip_list = [str(ip) for ip in ip_network("192.168.1.0/24").hosts()]
 
@@ -27,15 +28,18 @@ def ping_ip(ip):
 
 
 # We can use a with statement to ensure threads are cleaned up promptly
-with concurrent.futures.ThreadPoolExecutor(max_workers=40) as executor:
+with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
+    t1 = time.perf_counter()
     futures = []
     for ip in ip_list:
         future = executor.submit(ping_ip, ip)
         futures.append(future)
     for future in concurrent.futures.as_completed(futures):
         try:
-            data = future.result() 
+            data = future.result()
         except Exception as exc:
             print('generated an exception: %s' % (exc))
         else:
             print((str(data)))
+    t2 = time.perf_counter()
+    print(t2-t1)
