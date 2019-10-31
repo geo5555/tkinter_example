@@ -4,8 +4,6 @@ import platform
 import subprocess
 import time
 
-ip_list = [str(ip) for ip in ip_network("192.168.1.0/24").hosts()]
-
 
 def checkPlatform(Name):
     return Name.lower() == platform.system().lower()
@@ -28,7 +26,8 @@ def ping_ip(ip):
 
 
 # We can use a with statement to ensure threads are cleaned up promptly
-with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
+with concurrent.futures.ThreadPoolExecutor(max_workers=255) as executor:
+    ip_list = [str(ip) for ip in ip_network("192.168.2.0/24").hosts()]
     t1 = time.perf_counter()
     futures = []
     for ip in ip_list:

@@ -20,7 +20,7 @@ async def do_ping(host):
 
 
 async def main():
-    sem = asyncio.Semaphore(50)
+    sem = asyncio.Semaphore(255)
     ip_list = [str(ip) for ip in ip_network("192.168.2.0/24").hosts()]
     t1 = time.perf_counter()
     tasks = [
