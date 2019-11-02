@@ -41,13 +41,13 @@ txtArea3 = tkst.ScrolledText(window, width=50, height=30)
 txtArea3.grid(column=2, row=6)
 frame2 = Frame(window)
 frame2.grid(column=0, row=4)
-lblDirectory = Label(frame2, text="", font=("Arial Bold", 12))
+lblDirectory = Label(frame2, text="", font=("Arial Bold", 10))
 lblDirectory.grid(column=1, row=0)
-lblCountFiles = Label(window, text="#", font=("Arial Bold", 12))
+lblCountFiles = Label(window, text="#", font=("Arial Bold", 10))
 lblCountFiles.grid(column=0, row=5)
-lblCountPreview = Label(window, text="#", font=("Arial Bold", 12))
+lblCountPreview = Label(window, text="#", font=("Arial Bold", 10))
 lblCountPreview.grid(column=1, row=5)
-lblCountRenamed = Label(window, text="#", font=("Arial Bold", 12))
+lblCountRenamed = Label(window, text="#", font=("Arial Bold", 10))
 lblCountRenamed.grid(column=2, row=5)
 listFiles = []
 
@@ -117,7 +117,6 @@ def rename():
         pattern = re.escape(txt1.get())
     else:
         pattern = txt1.get()
-    pattern = re.escape(txt1.get())
     pattern2 = txt2.get()
     result = ''
     countRenamed = 0
@@ -125,7 +124,6 @@ def rename():
         if re.search(pattern, file.name, flags=re.I):
             result = re.sub(pattern, pattern2,
                             file.name, flags=re.I)
-            print(file.parent.joinpath(result))
             file.rename(file.parent.joinpath(result))
             countRenamed += 1
             # file.rename(result) will move file to another dir
