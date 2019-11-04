@@ -25,9 +25,9 @@ def ping_ip(ip):
     elif ping_reply.returncode == 1:
         return False, ip
 
+
 with concurrent.futures.ThreadPoolExecutor(max_workers=30) as executor:
     data = executor.map(ping_ip, ip_list)
-    #this will print all data per pool, in this case 30
+    # this will print all data per pool, in this case 30
     for item in data:
         print(item)
-
