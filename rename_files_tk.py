@@ -64,7 +64,7 @@ def rename():
     global directory1
     txtArea3.delete("1.0", END)
     pattern = re.escape(txt1.get())
-    pattern2 = re.escape(txt2.get())
+    pattern2 = txt2.get()
     result = ''
     for file in Path(directory1).iterdir():
         if file.is_file():
